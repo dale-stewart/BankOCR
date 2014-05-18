@@ -22,8 +22,11 @@ def build(bld):
 
     bld.program(source='Story1.cpp',
                 target='story1', 
-                includes='gmock-1.7.0/include gmock-1.7.0/gtest/include',
-                use='gmock ocr')
+                use='ocr')
+
+    bld.program(source='Story3.cpp',
+                target='story3', 
+                use='ocr')
 
     bld.stlib(source='gmock-1.7.0/src/gmock-all.cc gmock-1.7.0/gtest/src/gtest-all.cc', 
               includes='gmock-1.7.0/ gmock-1.7.0/gtest gmock-1.7.0/include/ gmock-1.7.0/gtest/include/', 
