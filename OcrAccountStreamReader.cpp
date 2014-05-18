@@ -20,9 +20,8 @@ OcrAccountStreamReader::OcrAccountStreamReader(istream& rhs)
     {
         OcrAccount account(file);
         accountList_.push_back(string(account));
-        int removeCount = 4;
-        while(file.size() && --removeCount)
-            file.erase(file.begin(), file.begin()+1);            
+        if (file.size() >= 4)
+            file.erase(file.begin(), file.begin()+4);            
     }
 }
 

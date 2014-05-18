@@ -12,19 +12,24 @@ def configure(conf):
 
 def build(bld):
     bld.program(features='test',
-                source='OcrAccount.cpp\
-                        OcrAccountStreamReader.cpp\
-                        OcrDigit.cpp \
-                        TestOcrAccount.cpp \
+                source='TestOcrAccount.cpp \
                         TestOcrAccountStreamReader.cpp \
                         TestOcrDigit.cpp \
                         TestRunner.cpp',
                 target='test', 
                 includes='gmock-1.7.0/include gmock-1.7.0/gtest/include',
-                use='gmock')
+                use='gmock ocr')
+
+    bld.program(source='Story1.cpp',
+                target='story1', 
+                includes='gmock-1.7.0/include gmock-1.7.0/gtest/include',
+                use='gmock ocr')
 
     bld.stlib(source='gmock-1.7.0/src/gmock-all.cc gmock-1.7.0/gtest/src/gtest-all.cc', 
               includes='gmock-1.7.0/ gmock-1.7.0/gtest gmock-1.7.0/include/ gmock-1.7.0/gtest/include/', 
               target='gmock')
+
+    bld.stlib(source='OcrAccount.cpp OcrAccountStreamReader.cpp OcrDigit.cpp',
+              target='ocr')
 
     bld.add_post_fun(waf_unit_test.summary)
