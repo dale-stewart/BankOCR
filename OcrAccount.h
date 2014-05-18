@@ -11,6 +11,7 @@ public:
     operator std::string();
     bool isValid();
     bool isLegible();
+    bool operator==(const OcrAccount& rhs) const;
 
 private:
     std::vector<std::string> value_;

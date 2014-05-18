@@ -19,13 +19,23 @@ OcrAccountStreamReader::OcrAccountStreamReader(istream& rhs)
     while(file.size()/4 > 0)
     {
         OcrAccount account(file);
-        accountList_.push_back(string(account));
+        accountList_.push_back(account);
         if (file.size() >= 4)
             file.erase(file.begin(), file.begin()+4);            
     }
 }
 
-OcrAccountStreamReader::operator vector<string>()
+OcrAccountStreamReader::operator vector<OcrAccount>()
 {
     return accountList_;
+}
+
+OcrAccountStreamReader::operator vector<string>()
+{
+    vector<string> value;
+
+    for(auto account: accountList_)
+        value.push_back(account);
+
+    return value;
 }

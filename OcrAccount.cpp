@@ -1,8 +1,10 @@
+#include <algorithm>
 #include "OcrAccount.h"
 #include "OcrDigit.h"
 
 using std::vector;
 using std::string;
+using std::equal;
 
 OcrAccount::OcrAccount(const vector<string>& rhs)
 {
@@ -54,4 +56,9 @@ bool OcrAccount::isLegible()
 {
     string account = *this;
     return account.find('?') == string::npos;
+}
+
+bool OcrAccount::operator==(const OcrAccount& rhs) const
+{
+    return equal(value_.begin(), value_.end(), rhs.value_.begin());
 }
