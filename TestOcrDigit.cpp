@@ -1,33 +1,85 @@
 #include <gmock/gmock.h>
+#include <sstream>
+
 #include "OcrDigit.h"
 
 using std::string;
 using std::vector;
+using std::stringstream;
 
 using namespace testing;
 
-class TestOcrDigit : public Test
+namespace
+{
+    vector< vector< string > > digits = 
+    {
+        {
+            " _ ",
+            "| |",
+            "|_|"
+        },
+        {
+            "   ",
+            "  |",
+            "  |"
+        },
+        {
+            " _ ",
+            " _|",
+            "|_ "
+        },
+        {
+            " _ ",
+            " _|",
+            " _|"
+        },
+        {
+            "   ",
+            "|_|",
+            "  |"
+        },
+        {
+            " _ ",
+            "|_ ",
+            " _|"
+        },
+        {
+            " _ ",
+            "|_ ",
+            "|_|"
+        },
+        {
+            " _ ",
+            "  |",
+            "  |"
+        },
+        {
+            " _ ",
+            "|_|",
+            "|_|"
+        },
+        {
+            " _ ",
+            "|_|",
+            " _|"
+        },
+    };
+}
+
+class TestOcrDigit : public TestWithParam<int>
 {
 };
 
-TEST_F(TestOcrDigit, CanDecodeDigitOne)
+TEST_P(TestOcrDigit, CanDecodeDigit)
 {
-    vector<string> one = { "   ",
-                           "  |",
-                           "  |" };
+    vector<string> input = digits[GetParam()];
+    OcrDigit digit(input);
 
-    OcrDigit digit(one);
+    stringstream ss;
+    ss << GetParam();
+    string expected = ss.str();
 
-    EXPECT_EQ(string("1"), string(digit));
+    EXPECT_EQ(expected, string(digit));
 }
 
-TEST_F(TestOcrDigit, CanDecodeDigitTwo)
-{
-    vector<string> two = { " _ ",
-                           " _|",
-                           "|_ " };
-
-    OcrDigit digit(two);
-
-    EXPECT_EQ(string("2"), string(digit));
-}
+INSTANTIATE_TEST_CASE_P(AllDigits, TestOcrDigit, Range(0, 10));
