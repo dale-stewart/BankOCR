@@ -10,6 +10,7 @@ public:
     OcrAccount(const std::vector<std::string>& rhs);
     operator std::string();
     bool isValid();
+    bool isLegible();
 
 private:
     std::vector<std::string> value_;

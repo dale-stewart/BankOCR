@@ -32,15 +32,26 @@ OcrAccount::operator string()
 
 bool OcrAccount::isValid()
 {
+    if (isLegible())
+    {
+        string account = *this;
+
+        int checksum   = 0;
+        int multiplier = 10;
+
+        while(--multiplier)
+            checksum += (account[9 - multiplier] - '0') * multiplier;
+
+        checksum %= 11;
+
+        return checksum == 0;
+    }
+
+    return false;
+}
+
+bool OcrAccount::isLegible()
+{
     string account = *this;
-
-    int checksum   = 0;
-    int multiplier = 10;
-
-    while(--multiplier)
-        checksum += (account[9 - multiplier] - '0') * multiplier;
-
-    checksum %= 11;
-
-    return checksum == 0;    
+    return account.find('?') == string::npos;
 }

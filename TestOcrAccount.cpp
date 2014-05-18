@@ -33,6 +33,12 @@ namespace
         "  |  |  |  |  |  |  |  |  |",
     };
 
+    vector<string> illegibleAccount = 
+    {
+        "    _  _     _  _  _     _ ",
+        "  | _| _||_||  |_   ||_||_|",
+        "  ||_  _|  | _||_|  ||_| _|"
+    };
 }
 
 TEST_F(TestOcrAccount, CanDecodeAccountNumber)
@@ -50,5 +56,23 @@ TEST_F(TestOcrAccount, CanDetectAccountNumberIsValid)
 TEST_F(TestOcrAccount, CanDetectAccountNumberIsInvalid)
 {
     OcrAccount ocrAccount(invalidAccount);
+    EXPECT_FALSE(ocrAccount.isValid());
+}
+
+TEST_F(TestOcrAccount, CanDetectAccountNumberIsLegible)
+{
+    OcrAccount ocrAccount(account);
+    EXPECT_TRUE(ocrAccount.isLegible());
+}
+
+TEST_F(TestOcrAccount, CanDetectAccountNumberIsIllegible)
+{
+    OcrAccount ocrAccount(illegibleAccount);
+    EXPECT_FALSE(ocrAccount.isLegible());
+}
+
+TEST_F(TestOcrAccount, IllegibleAccountIsInvalid)
+{
+    OcrAccount ocrAccount(illegibleAccount);
     EXPECT_FALSE(ocrAccount.isValid());
 }
