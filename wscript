@@ -15,6 +15,7 @@ def build(bld):
                 source='OcrAccount.cpp\
                         OcrDigit.cpp \
                         TestOcrAccount.cpp \
+                        TestOcrAccountStreamReader.cpp \
                         TestOcrDigit.cpp \
                         TestRunner.cpp',
                 target='test', 

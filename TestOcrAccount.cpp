@@ -6,7 +6,6 @@ using namespace testing;
 using std::string;
 using std::vector;
 
-
 class TestOcrAccount: public Test
 {
 };
