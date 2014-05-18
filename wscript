@@ -13,6 +13,7 @@ def configure(conf):
 def build(bld):
     bld.program(features='test',
                 source='OcrAccount.cpp\
+                        OcrAccountStreamReader.cpp\
                         OcrDigit.cpp \
                         TestOcrAccount.cpp \
                         TestOcrAccountStreamReader.cpp \
