@@ -12,7 +12,7 @@ def configure(conf):
 
 def build(bld):
     bld.program(features='test',
-                source='TestRunner.cpp TestOcrDigit.cpp OcrDigit.cpp', 
+                source='TestRunner.cpp TestOcrDigit.cpp TestOcrAccount.cpp OcrDigit.cpp',
                 target='test', 
                 includes='gmock-1.7.0/include gmock-1.7.0/gtest/include',
                 use='gmock')
