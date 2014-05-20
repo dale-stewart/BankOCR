@@ -10,6 +10,10 @@ def configure(conf):
     if conf.env.CXX_NAME == 'msvc':
         conf.env.append_value('CXXFLAGS', ['/EHsc'])
 
+    if conf.env.CXX_NAME == 'gcc':
+        conf.env.append_value('CXXFLAGS', ['-std=c++11'])
+        conf.env.append_value('LINKFLAGS', ['-pthread'])
+
 def build(bld):
     bld.program(features='test',
                 source='TestOcrAccount.cpp \
