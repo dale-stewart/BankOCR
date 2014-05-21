@@ -7,8 +7,13 @@
 class OcrDigit
 {
 public:
+    OcrDigit();
     OcrDigit(const std::vector<std::string>& rhs);
-    operator std::string();
+    operator std::string() const;
+    std::vector<OcrDigit> related();
+    bool operator==(const OcrDigit& rhs) const;
+    bool operator!=(const OcrDigit& rhs) const;
+    bool operator<(const OcrDigit& rhs) const;
 
 private:
     std::vector<std::string> digit_;
