@@ -69,11 +69,11 @@ namespace
     };
 }
 
-class TestOcrDigitWithParam : public TestWithParam<int>
+class TestOcrDigit : public TestWithParam<int>
 {
 };
 
-TEST_P(TestOcrDigitWithParam, CanDecodeDigit)
+TEST_P(TestOcrDigit, CanDecodeDigit)
 {
     vector<string> input = digits[GetParam()];
     OcrDigit digit(input);
@@ -85,28 +85,34 @@ TEST_P(TestOcrDigitWithParam, CanDecodeDigit)
     EXPECT_EQ(expected, string(digit));
 }
 
-INSTANTIATE_TEST_CASE_P(AllDigits, TestOcrDigitWithParam, Range(0, 10));
+INSTANTIATE_TEST_CASE_P(AllDigits, TestOcrDigit, Range(0, 10));
 
-TEST(TestOcrDigit, CanComputeDigitsRelatedToZero)
+vector<vector<int>> allRelated =
 {
-    OcrDigit digit(digits[0]);
+    { 0, 8 },
+    { 1, 7 },
+    { 2 },
+    { 3, 9 },
+    { 4 },
+    { 5, 6, 9 },
+    { 5, 6, 8 },
+    { 1, 7 },
+    { 0, 6, 8, 9 },
+    { 3, 5, 8, 9 }
+};
+
+TEST_P(TestOcrDigit, CanComputeRelatedDigits)
+{
+    int index = GetParam();
+    OcrDigit digit(digits[index]);
     vector<OcrDigit> related = digit.related();
-    vector<OcrDigit> expected = { OcrDigit(digits[0]), OcrDigit(digits[8]) };
+    vector<OcrDigit> expected;
+
+    for(auto a: allRelated[index])
+        expected.push_back(OcrDigit(digits[a]));
 
     for(auto r: related)
-        cout << "0: " << string(r) << endl;
-
-    EXPECT_EQ(expected, related);
-}
-
-TEST(TestOcrDigit, CanComputeDigitsRelatedToOne)
-{
-    OcrDigit digit(digits[1]);
-    vector<OcrDigit> related = digit.related();
-    vector<OcrDigit> expected = { OcrDigit(digits[1]), OcrDigit(digits[7]) };
-
-    for(auto r: related)
-        cout << "1: " << string(r) << endl;
+        cout << index << ": " << string(r) << endl;
 
     EXPECT_EQ(expected, related);
 }
