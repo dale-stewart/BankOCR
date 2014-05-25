@@ -76,3 +76,12 @@ TEST_F(TestOcrAccount, IllegibleAccountIsInvalid)
     OcrAccount ocrAccount(illegibleAccount);
     EXPECT_FALSE(ocrAccount.isValid());
 }
+
+TEST_F(TestOcrAccount, CanCorrectError)
+{
+    OcrAccount ocrAccount(invalidAccount);
+    vector<string> corrections;
+    corrections = ocrAccount.correctError();
+    vector<string> expected = { "711111111" };
+    EXPECT_EQ(corrections, expected);
+}

@@ -11,19 +11,12 @@ OcrAccount::OcrAccount(const vector<string>& rhs)
     value_ = rhs;
 }
 
-OcrAccount::operator string()
+OcrAccount::operator string() const
 {
     string value;
     
     for(int i = 0; i < 9; ++i)
-    {
-        vector<string> digit;
-        for(int j = 0; j < 3; ++j)
-        {
-            digit.push_back(value_[j].substr(i*3, 3));
-        }
-        value += OcrDigit(digit);
-    }
+        value += OcrDigit(slice(i));
 
     return value;
 }
@@ -37,16 +30,7 @@ bool OcrAccount::isValid()
     if (isLegible())
     {
         string account = *this;
-
-        int checksum   = 0;
-        int multiplier = 10;
-
-        while(--multiplier)
-            checksum += (account[9 - multiplier] - '0') * multiplier;
-
-        checksum %= 11;
-
-        return checksum == 0;
+        return hasValidChecksum(account);
     }
 
     return false;
@@ -61,4 +45,45 @@ bool OcrAccount::isLegible()
 bool OcrAccount::operator==(const OcrAccount& rhs) const
 {
     return equal(value_.begin(), value_.end(), rhs.value_.begin());
+}
+
+vector<string> OcrAccount::correctError() const
+{
+    vector<string> value;
+    for(int i = 0; i < 10; ++i)
+    {
+        string account = *this;
+        OcrDigit ocrDigit = OcrDigit(slice(i));
+        vector<OcrDigit> related = ocrDigit.related();
+        for(auto iter = related.begin(); iter!= related.end(); ++iter)
+        {
+            account[i] = string(*iter)[0];
+            if (hasValidChecksum(account))
+                value.push_back(account);
+        }
+    }
+    return value;
+}
+
+vector<string> OcrAccount::slice(int index) const
+{
+    vector<string> digit;
+    for(int j = 0; j < 3; ++j)
+    {
+        digit.push_back(value_[j].substr(index*3, 3));
+    }
+    return digit;
+}
+
+bool OcrAccount::hasValidChecksum(const std::string& account)
+{
+    int checksum   = 0;
+    int multiplier = 10;
+
+    while(--multiplier)
+        checksum += (account[9 - multiplier] - '0') * multiplier;
+
+    checksum %= 11;
+
+    return checksum == 0;
 }

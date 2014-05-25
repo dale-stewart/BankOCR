@@ -8,13 +8,16 @@ class OcrAccount
 {
 public:
     OcrAccount(const std::vector<std::string>& rhs);
-    operator std::string();
+    operator std::string() const;
     bool isValid();
     bool isLegible();
     bool operator==(const OcrAccount& rhs) const;
+    std::vector<std::string> correctError() const;
 
 private:
     std::vector<std::string> value_;
+    std::vector<std::string> slice(int index) const;
+    static bool hasValidChecksum(const std::string& account);
 };
 
 #endif // __OcrAccount_h__
