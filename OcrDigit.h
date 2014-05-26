@@ -16,6 +16,7 @@ public:
 private:
     std::vector<std::string> digit_;
     static std::map<std::vector<std::string>, std::string> digits_;
+    static void toggle(char& segment, char reference);
 };
 
 #endif // __OcrDigit_h__

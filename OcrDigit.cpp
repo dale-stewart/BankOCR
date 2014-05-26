@@ -29,6 +29,7 @@ OcrDigit::operator std::string() const
 vector<char> OcrDigit::related()
 {
     vector<char> value;
+
     vector<string> allSegmentsOn = 
         {
             " _ ",
@@ -40,18 +41,17 @@ vector<char> OcrDigit::related()
     {
         for(int j = 0; j < 3; ++ j)
         {
-            if (allSegmentsOn[i][j] != ' ')
+            char segment = allSegmentsOn[i][j];
+
+            if (segment != ' ')
             {
-                vector<string> testDigit = digit_;
+                toggle(digit_[i][j], segment);
 
-                if (testDigit[i][j] == ' ')
-                    testDigit[i][j] = allSegmentsOn[i][j];
-                else
-                    testDigit[i][j] = ' ';
+                string test = *this;
+                if (test != "?")
+                    value.push_back(test[0]);
 
-                OcrDigit test(testDigit);
-                if (string(test) != "?")
-                    value.push_back(string(test)[0]);
+                toggle(digit_[i][j], segment);
             }
         }
     }
@@ -59,6 +59,14 @@ vector<char> OcrDigit::related()
     std::sort(value.begin(), value.end());
 
     return value;
+}
+
+void OcrDigit::toggle(char& segment, char reference)
+{
+    if (segment == ' ')
+        segment = reference;
+    else
+        segment = ' ';
 }
 
 map< vector< string >, string > OcrDigit::digits_ = 
