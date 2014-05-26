@@ -56,3 +56,9 @@ To see output for the third story in the kata:
 ```
     build/story3
 ```
+
+Likewise for story 4:
+
+```
+    build/story4
+```
