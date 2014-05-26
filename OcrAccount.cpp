@@ -58,7 +58,7 @@ vector<string> OcrAccount::correctError() const
         for(auto iter = related.begin(); iter!= related.end(); ++iter)
         {
             account[i] = string(*iter)[0];
-            if (hasValidChecksum(account))
+            if (account.find("?") == string::npos && hasValidChecksum(account))
                 value.push_back(account);
         }
     }

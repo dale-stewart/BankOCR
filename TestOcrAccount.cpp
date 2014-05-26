@@ -39,6 +39,13 @@ namespace
         "  | _| _||_||  |_   ||_||_|",
         "  ||_  _|  | _||_|  ||_| _|"
     };
+
+    vector<string> correctableAccount =
+    {
+        "    _  _  _  _  _  _     _ ",
+        "|_||_|| ||_||_   |  |  | _ ",
+        "  | _||_||_||_|  |  |  | _|"
+    };
 }
 
 TEST_F(TestOcrAccount, CanDecodeAccountNumber)
@@ -80,8 +87,15 @@ TEST_F(TestOcrAccount, IllegibleAccountIsInvalid)
 TEST_F(TestOcrAccount, CanCorrectError)
 {
     OcrAccount ocrAccount(invalidAccount);
-    vector<string> corrections;
-    corrections = ocrAccount.correctError();
+    vector<string> corrections = ocrAccount.correctError();
     vector<string> expected = { "711111111" };
     EXPECT_EQ(corrections, expected);
+}
+
+TEST_F(TestOcrAccount, FiltersOutIllegibleAccountNumbers)
+{
+    OcrAccount ocrAccount(correctableAccount);
+    vector<string> corrections = ocrAccount.correctError();
+    vector<string> expected = { "490867715" };
+    EXPECT_EQ(expected, corrections);
 }

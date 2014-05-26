@@ -32,6 +32,10 @@ def build(bld):
                 target='story3', 
                 use='ocr')
 
+    bld.program(source='Story4.cpp',
+                target='story4', 
+                use='ocr')
+
     bld.stlib(source='gmock-1.7.0/src/gmock-all.cc gmock-1.7.0/gtest/src/gtest-all.cc', 
               includes='gmock-1.7.0/ gmock-1.7.0/gtest gmock-1.7.0/include/ gmock-1.7.0/gtest/include/', 
               target='gmock')
