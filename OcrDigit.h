@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 class OcrDigit
 {
@@ -11,13 +12,10 @@ public:
     OcrDigit(const std::vector<std::string>& rhs);
     operator std::string() const;
     std::vector<char> related();
-    bool operator==(const OcrDigit& rhs) const;
-    bool operator!=(const OcrDigit& rhs) const;
-    bool operator<(const OcrDigit& rhs) const;
 
 private:
     std::vector<std::string> digit_;
-    static std::vector<std::vector<std::string>> digits_;
+    static std::map<std::vector<std::string>, std::string> digits_;
 };
 
 #endif // __OcrDigit_h__
