@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 #include "OcrAccountStreamReader.h"
 
 using std::vector;
@@ -7,6 +8,7 @@ using std::string;
 using std::cout;
 using std::endl;
 using std::ifstream;
+using std::sort;
 
 int main(void)
 {
@@ -24,6 +26,7 @@ int main(void)
                 cout << corrected[0];
             else if (corrected.size() > 1)
             {
+                sort(corrected.begin(), corrected.end());
                 cout << string(account);
                 cout << " AMB [";
                 for(auto acct: corrected)
