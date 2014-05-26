@@ -11,10 +11,11 @@ public:
     OcrDigit();
     OcrDigit(const std::vector<std::string>& rhs);
     operator std::string() const;
-    std::vector<char> related();
+    bool operator==(const OcrDigit& rhs) const;
+    std::vector<char> related() const;
 
 private:
-    std::vector<std::string> digit_;
+    mutable std::vector<std::string> digit_;
     static std::map<std::vector<std::string>, std::string> digits_;
     static void toggle(char& segment, char reference);
 };

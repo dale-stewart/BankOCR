@@ -16,6 +16,11 @@ OcrDigit::OcrDigit(const vector<string>& rhs)
     digit_ = rhs;
 }
 
+bool OcrDigit::operator==(const OcrDigit& rhs) const
+{
+    return equal(digit_.begin(), digit_.end(), rhs.digit_.begin());
+}
+
 OcrDigit::operator std::string() const
 {
     auto iter = digits_.find(digit_);
@@ -26,7 +31,7 @@ OcrDigit::operator std::string() const
     return "?";
 }
 
-vector<char> OcrDigit::related()
+vector<char> OcrDigit::related() const
 {
     vector<char> value;
 

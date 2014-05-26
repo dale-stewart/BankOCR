@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include "OcrDigit.h"
 
 class OcrAccount
 {
@@ -15,9 +16,10 @@ public:
     std::vector<std::string> correctError() const;
 
 private:
-    std::vector<std::string> value_;
-    std::vector<std::string> slice(int index) const;
+    std::vector<OcrDigit> value_;
+    static std::vector<std::string> slice(int index, const std::vector<std::string>& v);
     static bool hasValidChecksum(const std::string& account);
+    void computeCorrection(int i, std::string account, std::vector<std::string>& value) const;
 };
 
 #endif // __OcrAccount_h__

@@ -1,6 +1,5 @@
 #include <algorithm>
 #include "OcrAccount.h"
-#include "OcrDigit.h"
 
 using std::vector;
 using std::string;
@@ -8,7 +7,8 @@ using std::equal;
 
 OcrAccount::OcrAccount(const vector<string>& rhs)
 {
-    value_ = rhs;
+    for(int i = 0; i < 9; ++i)
+        value_.push_back(OcrDigit(slice(i, rhs)));
 }
 
 OcrAccount::operator string() const
@@ -16,14 +16,10 @@ OcrAccount::operator string() const
     string value;
     
     for(int i = 0; i < 9; ++i)
-        value += OcrDigit(slice(i));
+        value += value_[i];
 
     return value;
 }
-
-// account number:  3  4  5  8  8  2  8  6  5
-// position names:  d9 d8 d7 d6 d5 d4 d3 d2 d1
-// checksum calculation: (d1+2*d2+3*d3 +..+9*d9) mod 11 = 0
 
 bool OcrAccount::isValid()
 {
@@ -50,28 +46,27 @@ bool OcrAccount::operator==(const OcrAccount& rhs) const
 vector<string> OcrAccount::correctError() const
 {
     vector<string> value;
-    for(int i = 0; i < 10; ++i)
+    string account = *this;
+
+    int index = account.find("?");
+    if (index == string::npos)
     {
-        string account = *this;
-        OcrDigit ocrDigit = OcrDigit(slice(i));
-        vector<char> related = ocrDigit.related();
-        for(auto iter = related.begin(); iter!= related.end(); ++iter)
-        {
-            account[i] = *iter;
-            if (account.find("?") == string::npos && hasValidChecksum(account))
-                value.push_back(account);
-        }
+        for(int i = 0; i < 9; ++i)
+            computeCorrection(i, account, value);
     }
+    else
+        computeCorrection(index, account, value);
+
     return value;
 }
 
-vector<string> OcrAccount::slice(int index) const
+vector<string> OcrAccount::slice(int index, const vector<string>& v)
 {
     vector<string> digit;
-    for(int j = 0; j < 3; ++j)
-    {
-        digit.push_back(value_[j].substr(index*3, 3));
-    }
+
+    for(int i = 0; i < 3; ++i)
+        digit.push_back(v[i].substr(index*3, 3));
+
     return digit;
 }
 
@@ -80,10 +75,25 @@ bool OcrAccount::hasValidChecksum(const std::string& account)
     int checksum   = 0;
     int multiplier = 10;
 
+    if (account.find("?") != string::npos)
+        return false;
+
     while(--multiplier)
         checksum += (account[9 - multiplier] - '0') * multiplier;
 
     checksum %= 11;
 
     return checksum == 0;
+}
+
+void OcrAccount::computeCorrection(int i, string account, vector<string>& value) const
+{
+    vector<char> related = value_[i].related();
+
+    for(auto c: related)
+    {
+        account[i] = c;
+        if (hasValidChecksum(account))
+            value.push_back(account);
+    }
 }
