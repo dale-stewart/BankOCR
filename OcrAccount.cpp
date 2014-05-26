@@ -23,13 +23,8 @@ OcrAccount::operator string() const
 
 bool OcrAccount::isValid()
 {
-    if (isLegible())
-    {
-        string account = *this;
-        return hasValidChecksum(account);
-    }
-
-    return false;
+    string account = *this;
+    return hasValidChecksum(account);
 }
 
 bool OcrAccount::isLegible()
@@ -72,11 +67,11 @@ vector<string> OcrAccount::slice(int index, const vector<string>& v)
 
 bool OcrAccount::hasValidChecksum(const std::string& account)
 {
-    int checksum   = 0;
-    int multiplier = 10;
-
     if (account.find("?") != string::npos)
         return false;
+
+    int checksum   = 0;
+    int multiplier = 10;
 
     while(--multiplier)
         checksum += (account[9 - multiplier] - '0') * multiplier;
