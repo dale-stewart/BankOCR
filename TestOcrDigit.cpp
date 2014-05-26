@@ -1,12 +1,11 @@
 #include <gmock/gmock.h>
-#include <sstream>
 #include <iostream>
 
 #include "OcrDigit.h"
 
 using std::string;
 using std::vector;
-using std::stringstream;
+using std::to_string;
 
 using namespace testing;
 
@@ -67,24 +66,6 @@ namespace
     };
 }
 
-class TestOcrDigit : public TestWithParam<int>
-{
-};
-
-TEST_P(TestOcrDigit, CanDecodeDigit)
-{
-    vector<string> input = digits[GetParam()];
-    OcrDigit digit(input);
-
-    stringstream ss;
-    ss << GetParam();
-    string expected = ss.str();
-
-    EXPECT_EQ(expected, string(digit));
-}
-
-INSTANTIATE_TEST_CASE_P(AllDigits, TestOcrDigit, Range(0, 10));
-
 vector<vector<int>> allRelated =
 {
     { 8 },
@@ -99,15 +80,32 @@ vector<vector<int>> allRelated =
     { 3, 5, 8 }
 };
 
+class TestOcrDigit : public TestWithParam<int>
+{
+public:
+    void SetUp()
+    {
+        digit = OcrDigit(digits[GetParam()]);
+    }
+
+    OcrDigit digit;
+};
+
+TEST_P(TestOcrDigit, CanDecodeDigit)
+{
+    string expected = to_string(GetParam());
+    EXPECT_EQ(expected, string(digit));
+}
+
 TEST_P(TestOcrDigit, CanComputeRelatedDigits)
 {
-    int index = GetParam();
-    OcrDigit digit(digits[index]);
     vector<char> related = digit.related();
-    vector<char> expected;
 
-    for(auto a: allRelated[index])
+    vector<char> expected;
+    for(auto a: allRelated[GetParam()])
         expected.push_back('0' + a);
 
     EXPECT_EQ(expected, related);
 }
+
+INSTANTIATE_TEST_CASE_P(AllDigits, TestOcrDigit, Range(0, 10));
