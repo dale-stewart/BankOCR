@@ -32,9 +32,9 @@ OcrDigit::operator std::string() const
     return "?";
 }
 
-vector<OcrDigit> OcrDigit::related()
+vector<char> OcrDigit::related()
 {
-    vector<OcrDigit> value;
+    vector<char> value;
     vector<string> allSegmentsOn = digits_[8];
 
     for(int i = 0; i < 3; ++i)
@@ -50,7 +50,7 @@ vector<OcrDigit> OcrDigit::related()
 
             OcrDigit test(testDigit);
             if (string(test) != "?")
-                value.push_back(test);
+                value.push_back(string(test)[0]);
         }
     }
 

@@ -105,14 +105,14 @@ TEST_P(TestOcrDigit, CanComputeRelatedDigits)
 {
     int index = GetParam();
     OcrDigit digit(digits[index]);
-    vector<OcrDigit> related = digit.related();
-    vector<OcrDigit> expected;
+    vector<char> related = digit.related();
+    vector<char> expected;
 
     for(auto a: allRelated[index])
-        expected.push_back(OcrDigit(digits[a]));
+        expected.push_back('0' + a);
 
     for(auto r: related)
-        cout << index << ": " << string(r) << endl;
+        cout << index << ": " << r << endl;
 
     EXPECT_EQ(expected, related);
 }

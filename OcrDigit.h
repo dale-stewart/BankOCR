@@ -10,7 +10,7 @@ public:
     OcrDigit();
     OcrDigit(const std::vector<std::string>& rhs);
     operator std::string() const;
-    std::vector<OcrDigit> related();
+    std::vector<char> related();
     bool operator==(const OcrDigit& rhs) const;
     bool operator!=(const OcrDigit& rhs) const;
     bool operator<(const OcrDigit& rhs) const;

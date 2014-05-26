@@ -54,10 +54,10 @@ vector<string> OcrAccount::correctError() const
     {
         string account = *this;
         OcrDigit ocrDigit = OcrDigit(slice(i));
-        vector<OcrDigit> related = ocrDigit.related();
+        vector<char> related = ocrDigit.related();
         for(auto iter = related.begin(); iter!= related.end(); ++iter)
         {
-            account[i] = string(*iter)[0];
+            account[i] = *iter;
             if (account.find("?") == string::npos && hasValidChecksum(account))
                 value.push_back(account);
         }
