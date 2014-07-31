@@ -13,6 +13,12 @@ To build the project for the first time, type:
   waf configure build
 ```
 
+To build with clang, try:
+
+```
+  CXX=clang++ waf configure build
+```
+
 Subsequent builds just require:
 
 ```

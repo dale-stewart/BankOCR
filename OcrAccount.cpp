@@ -43,7 +43,7 @@ vector<string> OcrAccount::correctError() const
     vector<string> value;
     string account = *this;
 
-    int index = account.find("?");
+    size_t index = account.find("?");
     if (index == string::npos)
     {
         for(int i = 0; i < 9; ++i)
