@@ -11,7 +11,8 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', ['/EHsc'])
 
     if conf.env.CXX_NAME == 'gcc':
-        conf.env.append_value('CXXFLAGS', ['-std=c++11'])
+        if conf.env.CC_VERSION == ()
+        conf.env.append_value('CXXFLAGS', ['-std=c++0x'])
         conf.env.append_value('LINKFLAGS', ['-pthread'])
 
 def build(bld):
