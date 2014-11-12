@@ -1,6 +1,8 @@
 BankOCR
 =======
 
+[![Build Status](https://travis-ci.org/dale-stewart/BankOCR.svg?branch=master)](https://travis-ci.org/dale-stewart/BankOCR)
+
 Bank OCR Kata
 
 This project uses the waf build system.
